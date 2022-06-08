@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<%- include("layout/head",{title:"Danh mục"}) %>
+</head>
+<body>
+
+<!--	Header	-->
+    <%- include("layout/header") %>
+<!--	End Header	-->
+
+<!--	Body	-->
+<div id="body">
+	<div class="container">
+        <%- include("layout/menu") %>
+        <div class="row">
+        	<div id="main" class="col-lg-8 col-md-12 col-sm-12">
+            	<!--	Slider	-->
+                <%- include("layout/slide") %>
+                <!--	End Slider	-->
+                
+                <!--	List Product	-->
+                <div class="products">
+                    <h3><%=title%> (hiện có <%=total %> sản phẩm)</h3>
+                    <div class="product-list card-deck">
+                        <% for (let product of products) {%>
+                            <%- include("components/product-item",{product:product}) %>
+                            <% }%>
+                    </div>
+                </div>
+                <!--	End List Product	-->
+                
+                <div id="pagination">
+                    <ul class="pagination">
+                        <li class="page-item"><a class="page-link" href="#">Trang trước</a></li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#">Trang sau</a></li>
+                    </ul> 
+                </div>
+                
+            </div>
+            
+            <%- include("layout/sidebar") %>
+
+        </div>
+    </div>
+</div>
+<!--	End Body	-->
+
+            <%- include("layout/footer") %>
+<!--	End Footer	-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
