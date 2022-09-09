@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 module.exports = () => {
-    mongoose.connect('mongodb://localhost/vietpro_mongodb', {
+    mongoose.connect('mongodb://127.0.0.1/vietpro_mongodb', {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useFindAndModify: false,

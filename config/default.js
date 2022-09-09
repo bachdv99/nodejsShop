@@ -1,14 +1,14 @@
 const { static } = require("express");
 module.exports = {
     app: {
-        port: 3000,
+        port: 80,
         views_folder: __dirname+"/../src/apps/views",
         view_engine: "ejs",
         static_folder: __dirname+"/../src/public",
         session_key: "random",
         session_secure: false,
         tmp:__dirname+"/../tmp",
-        url: "http://localhost:3000",
+        url: "http://localhost:80",
     },
     mail: {
         host: "smtp.gmail.com",
