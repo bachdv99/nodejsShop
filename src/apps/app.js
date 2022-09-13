@@ -26,6 +26,12 @@ app.use(session({
   cookie: false
 }))
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 //use Cart
 app.use(require("../apps/middlewares/cart"));
 

@@ -24,6 +24,7 @@ const home = async (req,res)=>{
     });
 };
 
+
 const category = async (req,res)=>{
     const slug = req.params.slug;
     const id = req.params.id;

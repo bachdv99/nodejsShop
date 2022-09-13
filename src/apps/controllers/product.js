@@ -18,7 +18,6 @@ const index = async (req, res) => {
                                         .skip(skip)
                                         .limit(limit)
                                         .sort({"_id": -1});
-    // console.log(products);
     res.render("admin/products/product", 
     { 
         products: products,
@@ -27,10 +26,32 @@ const index = async (req, res) => {
         totalPage: totalPage,
     });
 }
+
+const getLatestProducts = async (req,res)=>{
+    const latestProductsAPI = await ProductsModel.find({
+        is_stock:true,
+    }).sort({_id:-1}).limit(6);
+    res.send(latestProductsAPI);
+
+}
+
+const getFeaturedProducts = async (req,res)=>{
+    const featuredProductsAPI = await ProductsModel.find({
+        featured:true,
+    }).sort({_id:-1}).limit(6);
+    res.send(featuredProductsAPI);
+}
+
 const create = async (req, res) => {
     const categories = await CategoriesModel.find();
     res.render("admin/products/add_product", {categories:categories});
 }
+
+const getapi = async(req,res)=>{
+    const products = await ProductsModel.find()
+    res.send(products);
+}
+
 
 const update = async(req,res)=>{
     const id = req.params.id;
@@ -49,6 +70,7 @@ const update = async(req,res)=>{
         name: body.name,
         slug: slug(body.name),
     };
+
     console.log(id);
     console.log(body);
     if(file){
@@ -83,6 +105,15 @@ const store = async (req, res)=>{
     // console.log(product);
     res.redirect("/admin/products");
 }
+
+const searchAPI = async(req,res)=>{
+    const id = req.params.id;
+    const product = await ProductsModel.findById(id);
+    console.log(product)
+    res.send(product);
+
+}
+
 const edit = async (req, res) => {
     const categories = await CategoriesModel.find();
     const id = req.params.id;
@@ -94,9 +125,14 @@ const del = async (req, res) => {
     const id = req.params.id; // lấy giá trị id ở đường dẫn
     await ProductsModel.deleteOne({_id:id});
     res.redirect("/admin/products");
-
 }
+
+
 module.exports = {
+    getFeaturedProducts:getFeaturedProducts,
+    getLatestProducts:getLatestProducts,
+    searchAPI:searchAPI,
+    getapi: getapi,
     index: index,
     create: create,
     store: store,

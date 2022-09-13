@@ -4,10 +4,10 @@ const TestController = require("../apps/controllers/test");
 const AuthController = require("../apps/controllers/auth");
 const AdminController = require("../apps/controllers/admin");
 const ProductController = require("../apps/controllers/product");
-const AuthMiddleware = require ("../apps/middlewares/auth")
-const UploadMidware = require ("../apps/middlewares/upload")
-const ChatController = require("../apps/controllers/chat")
-//
+const AuthMiddleware = require ("../apps/middlewares/auth");
+const UploadMidware = require ("../apps/middlewares/upload");
+const ChatController = require("../apps/controllers/chat");
+
 const multer = require('multer');
 const site = require("../apps/controllers/site");
 const upload = multer({
@@ -15,6 +15,15 @@ const upload = multer({
 })
 //router comment
 router.post("/product-:slug.:id", site.comment);
+
+
+//router api
+router.get("/api/products",ProductController.getapi);
+router.get("/api/-:slug.:id",ProductController.searchAPI);
+router.get("/api/FeaturedProducts",ProductController.getFeaturedProducts);
+router.get("/api/LatestProducts",ProductController.getLatestProducts);
+
+// router.get("api?")
 
 //
 
@@ -39,6 +48,9 @@ router.post("/form", (req, res)=>{
     const pass = req.body.pass;
     console.log(mail+"-"+pass);
 });
+// router.get("/search",(req,res)=>{
+//     const content = req.query.
+// })
 
 router.get("/upload", TestController.frmUpload)
 router.post("/upload", upload.single("file_upload"), TestController.fileUpload)
