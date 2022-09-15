@@ -18,36 +18,43 @@ router.post("/product-:slug.:id", site.comment);
 
 
 //router api
-router.get("/api/products",ProductController.getapi);
-router.get("/api/-:slug.:id",ProductController.searchAPI);
-router.get("/api/FeaturedProducts",ProductController.getFeaturedProducts);
+router.get("/api/comment/:id",ProductController.getCommentAPI);
+router.get("/api/Categories",ProductController.getCategoriesAPI)
+router.get("/images/:id-:thumbnail",ProductController.getImg);
+router.get("/api/FeaturedProducts",ProductController.getAPIFeaturedProducts);
 router.get("/api/LatestProducts",ProductController.getLatestProducts);
+router.get("/api/products",ProductController.getapi);
+router.get("/api/:id",ProductController.searchAPI);
 
-// router.get("api?")
+
+
+
+
+
 
 //
 
 //
-router.get("/test",(req,res,next)=>{
-    next();
-}, TestController.test);
-router.get("/test2", TestController.test2);
-router.get("/test3", TestController.test3);
+// router.get("/test",(req,res,next)=>{
+//     next();
+// }, TestController.test);
+// router.get("/test2", TestController.test2);
+// router.get("/test3", TestController.test3);
 
-router.get("/form", (req, res)=>{
-    res.send(`
-        <form method=post>
-            <input type=text name=mail />
-            <input type=text name=pass />
-            <input type=submit name=sbm value=Login />
-        </form>
-    `);
-});
-router.post("/form", (req, res)=>{
-    const mail = req.body.mail;
-    const pass = req.body.pass;
-    console.log(mail+"-"+pass);
-});
+// router.get("/form", (req, res)=>{
+//     res.send(`
+//         <form method=post>
+//             <input type=text name=mail />
+//             <input type=text name=pass />
+//             <input type=submit name=sbm value=Login />
+//         </form>
+//     `);
+// });
+// router.post("/form", (req, res)=>{
+//     const mail = req.body.mail;
+//     const pass = req.body.pass;
+//     console.log(mail+"-"+pass);
+// });
 // router.get("/search",(req,res)=>{
 //     const content = req.query.
 // })
@@ -67,9 +74,6 @@ router.post("/admin/products/store", UploadMidware.single("thumbnail"), AuthMidd
 router.get("/admin/products/edit/:id", AuthMiddleware.checkAdmin, ProductController.edit);
 router.post("/admin/products/update/:id", UploadMidware.single("thumbnail"), AuthMiddleware.checkAdmin, ProductController.update);
 router.get("/admin/products/delete/:id", AuthMiddleware.checkAdmin, ProductController.del);
-
-
-
 router.get("/",site.home);
 router.get("/product-:slug.:id",site.product);
 router.get("/search",site.search);

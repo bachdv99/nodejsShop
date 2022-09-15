@@ -4,6 +4,7 @@ const paginate = require("../../common/paginate");
 const slug = require("slug");
 const path = require("path");
 const fs = require("fs");
+const CommentModel = require("../models/comment");
 const index = async (req, res) => {
 
     const page = parseInt(req.query.page) || 1;
@@ -31,15 +32,36 @@ const getLatestProducts = async (req,res)=>{
     const latestProductsAPI = await ProductsModel.find({
         is_stock:true,
     }).sort({_id:-1}).limit(6);
-    res.send(latestProductsAPI);
+    res.json(latestProductsAPI);
 
 }
 
-const getFeaturedProducts = async (req,res)=>{
-    const featuredProductsAPI = await ProductsModel.find({
+const getAPIFeaturedProducts = async(req,res)=>{
+    const products = await ProductsModel.find({
         featured:true,
-    }).sort({_id:-1}).limit(6);
-    res.send(featuredProductsAPI);
+    }).sort({_id:1}).limit(6);
+    res.json(products);
+}
+
+
+const getCommentAPI = async(req,res)=>{
+        const id = req.params.id;
+        const product = await CommentModel.findById({
+            prd_id:id,
+        });
+        res.json(product);
+    }
+
+const getImg = async (req,res)=>{
+    const id = req.params.id;
+    const product = await ProductsModel.findById(id);
+    const thumbnail= product.thumbnail;
+    res.sendfile("src/public/images/"+thumbnail);
+}
+
+const getCategoriesAPI = async (req,res)=>{
+    const categories = await CategoriesModel.find();
+    res.json(categories);
 }
 
 const create = async (req, res) => {
@@ -48,9 +70,10 @@ const create = async (req, res) => {
 }
 
 const getapi = async(req,res)=>{
-    const products = await ProductsModel.find()
-    res.send(products);
+    const products = await ProductsModel.find();
+    res.json(products);
 }
+
 
 
 const update = async(req,res)=>{
@@ -71,8 +94,8 @@ const update = async(req,res)=>{
         slug: slug(body.name),
     };
 
-    console.log(id);
-    console.log(body);
+    // console.log(id);
+    // console.log(body);
     if(file){
         product["thumbnail"] = "products/"+file.originalname;
         fs.renameSync(file.path,path.resolve("src/public/images/products",file.originalname));
@@ -109,9 +132,7 @@ const store = async (req, res)=>{
 const searchAPI = async(req,res)=>{
     const id = req.params.id;
     const product = await ProductsModel.findById(id);
-    console.log(product)
-    res.send(product);
-
+    res.json(product);
 }
 
 const edit = async (req, res) => {
@@ -129,10 +150,13 @@ const del = async (req, res) => {
 
 
 module.exports = {
-    getFeaturedProducts:getFeaturedProducts,
-    getLatestProducts:getLatestProducts,
-    searchAPI:searchAPI,
+    getCommentAPI:getCommentAPI,
     getapi: getapi,
+    searchAPI:searchAPI,
+    getImg:getImg,
+    getAPIFeaturedProducts:getAPIFeaturedProducts,
+    getLatestProducts:getLatestProducts,
+    getCategoriesAPI:getCategoriesAPI,
     index: index,
     create: create,
     store: store,

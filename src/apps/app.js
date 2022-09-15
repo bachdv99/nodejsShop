@@ -1,11 +1,11 @@
 const express = require("express");
+
 const app = express();
 // const config = require("../../config/default");
 const session = require('express-session');
+
+
 const config = require('config');
-
-
-
 // Config View Engine
 app.set("views", config.get("app").views_folder);
 app.set("view engine", config.get("app").view_engine);
